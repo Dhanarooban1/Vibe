@@ -33,13 +33,13 @@ const ViewBookings = () => {
     }
 
     try {
-      await axios.patch(`http://127.0.0.1:8000/api/bookings/${bookingId}/`, {
+      await axios.patch(`${BASE_URL}/api/bookings/${bookingId}/`, {
         status: 'cancelled'
       });
       
       setSuccessMessage('Booking cancelled successfully.');
       
-      // Update the bookings list
+
       fetchBookings();
       
       // Clear success message after 3 seconds
@@ -50,7 +50,7 @@ const ViewBookings = () => {
       console.error('Error cancelling booking:', err);
       setError('Failed to cancel booking. Please try again.');
       
-      // Clear error message after 3 seconds
+    
       setTimeout(() => {
         setError('');
       }, 3000);
