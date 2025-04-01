@@ -108,10 +108,15 @@ REST_FRAMEWORK = {
     ],
 }
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://vibe-6ewf.vercel.app",
+    "http://localhost:5173",
+]
+
 # CORS Settings
 CORS_ALLOWED_ORIGINS = [
     'https://vibe-6ewf.vercel.app',  # React frontend on Vercel
-    'http://localhost:3000',  # Local development frontend
+    'http://localhost:5173',  # Local development frontend
 ]
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = [

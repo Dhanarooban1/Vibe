@@ -14,7 +14,7 @@ const LoginPage = () => {
     setError('');
     
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/login/', { 
+      const response = await axios.post('https://vibe-r6o7.onrender.com/api/login/', { 
         username, 
         password
       })
