@@ -12,7 +12,7 @@ const ViewBookings = () => {
   const fetchBookings = async () => {
     setLoading(true);
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/bookings/');
+      const response = await axios.get(`${BASE_URL}/api/bookings/`);
       setBookings(response.data);
     } catch (err) {
       console.error('Error fetching bookings:', err);

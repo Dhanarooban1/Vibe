@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-
+import BASE_URL from '../../Config';
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -14,7 +14,7 @@ const LoginPage = () => {
     setError('');
     
     try {
-      const response = await axios.post('https://vibe-r6o7.onrender.com/api/login/', { 
+      const response = await axios.post(`${BASE_URL}/api/login/`, { 
         username, 
         password
       })
