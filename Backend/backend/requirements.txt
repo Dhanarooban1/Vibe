@@ -1,3 +1,5 @@
-Django>=4.0,<5.0
-djangorestframework
-gunicorn
+dj-database-url==2.3.0
+Django==5.1.7
+django-cors-headers==4.7.0
+django-rest-framework==0.1.0
+djangorestframework==3.14.0
