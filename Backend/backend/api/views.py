@@ -26,13 +26,14 @@ class ParkingSlotViewSet(ModelViewSet):
             booking_date = datetime.strptime(date_str, '%Y-%m-%d').date()
             
             # Find all booked slots for this date and time
+            # it get the data from booking if booked and other bookingdata and status of other will fidet and give to avalit to get only avaiabke
             booked_slots = Booking.objects.filter(
                 booking_date=booking_date,
                 time_slot=time_slot,
                 status='booked'
             ).values_list('parking_slot_id', flat=True)
-            
-            # Find all available slots
+            print("from",booked_slots)
+
             available_slots = ParkingSlot.objects.exclude(id__in=booked_slots)
             serializer = self.get_serializer(available_slots, many=True)
             print(serializer.data)
@@ -45,12 +46,13 @@ class BookingViewSet(ModelViewSet):
     serializer_class = BookingSerializer
     permission_classes = [IsAuthenticated]
     
+
+#  this is to give only the booked slot of that particular user
     def get_queryset(self):
-        # Only show user's own bookings
-        return Booking.objects.filter(user=self.request.user)
+        queryset = Booking.objects.filter(user=self.request.user,status="booked")
+        return queryset
     
     def perform_create(self, serializer):
-        # Check if slot is already booked for this date and time
         parking_slot = serializer.validated_data.get('parking_slot')
         booking_date = serializer.validated_data.get('booking_date')
         time_slot = serializer.validated_data.get('time_slot')
@@ -61,7 +63,7 @@ class BookingViewSet(ModelViewSet):
             time_slot=time_slot,
             status='booked'
         ).exists()
-        
+        print("fromexisting_booking",existing_booking)
         if existing_booking:
             return Response(
                 {"error": "This parking slot is already booked for the selected date and time."},
@@ -70,3 +72,16 @@ class BookingViewSet(ModelViewSet):
         
         # Save the booking with the current user
         serializer.save(user=self.request.user)
+
+    def perform_update(self, serializer):
+        booking = self.get_object()
+        new_status = self.request.data.get('status')
+        print("dfdf",new_status)
+        print(f"Before update - Booking ID: {booking.id}, Current status: {booking.status}")
+    
+        if booking.status == 'booked' and new_status == 'cancelled':
+            serializer.save(status='cancelled')
+            updated_booking = Booking.objects.get(id=booking.id)
+            print(f"After update - Booking ID: {booking.id}, New status: {updated_booking.status}")
+        else:
+            serializer.save()

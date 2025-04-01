@@ -12,12 +12,13 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    
+  
     try {
       const response = await axios.post(`${BASE_URL}/api/login/`, { 
         username, 
         password
       })
+      
     console.log('Token:', response.data.token);
      
       Cookies.set('access_token', response.data.token, { expires: 1 });
