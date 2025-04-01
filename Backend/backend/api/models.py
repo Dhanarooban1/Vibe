@@ -1,4 +1,3 @@
-# parking/models.py
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -10,7 +9,7 @@ class ParkingSlot(models.Model):
         ('electric', 'Electric Charging'),
     ]
     
-    number = models.CharField(max_length=10,unique=True)  # P1, P2, P3, etc.
+    number = models.CharField(max_length=10,unique=True) 
     parking_type = models.CharField(max_length=20, choices=PARKING_TYPE_CHOICES)
     is_available = models.BooleanField(default=True)
     

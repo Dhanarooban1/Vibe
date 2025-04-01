@@ -1,8 +1,8 @@
-// src/pages/BookingPage.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import BASE_URL from '../../Config';
+import BASE_URL from '../../Config'; // Ensure this path is correct
+
 const BookingPage = () => {
   const [date, setDate] = useState('');
   const [timeSlot, setTimeSlot] = useState('');
@@ -18,7 +18,7 @@ const BookingPage = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
-
+console.log(BASE_URL)
   // Get available slots based on selected date and time
   useEffect(() => {
     const fetchAvailableSlots = async () => {
@@ -26,8 +26,9 @@ const BookingPage = () => {
       
       setLoading(true);
       try {
-        const response = await axios.get(`BASE_URL/api/parking-slots/available/?date=${date}&time_slot=${timeSlot}`);
+        const response = await axios.get(`${BASE_URL}/api/parking-slots/available/?date=${date}&time_slot=${timeSlot}`);
         setAvailableSlots(response.data);
+        console.log(response.data);
       } catch (err) {
         console.error('Error fetching available slots:', err);
         setError('Failed to fetch available parking slots');
@@ -48,7 +49,7 @@ const BookingPage = () => {
 
     setLoading(true);
     try {
-      await axios.post('/api/bookings/', {
+      await axios.post(`${BASE_URL}/api/bookings/`, {
         booking_date: date,
         time_slot: timeSlot,
         parking_slot: parkingNumber

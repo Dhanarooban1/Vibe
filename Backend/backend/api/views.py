@@ -35,7 +35,7 @@ class ParkingSlotViewSet(ModelViewSet):
             # Find all available slots
             available_slots = ParkingSlot.objects.exclude(id__in=booked_slots)
             serializer = self.get_serializer(available_slots, many=True)
-            
+            print(serializer.data)
             return Response(serializer.data)
         except ValueError:
             return Response({"error": "Invalid date format. Use YYYY-MM-DD"}, 
